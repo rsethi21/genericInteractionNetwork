@@ -1,13 +1,19 @@
 from interactions import Interaction
 from substrate import Substrate
 import pdb
+import pickle
 
 class Network:
   def __init__(self, name, networkDictionary):
     self.name = name
     self.substrates = self.processSubstrates(networkDictionary)
     self.interactions = self.processInteractions(networkDictionary)
-  
+
+  @classmethod
+  def readNetworkObject(cls, objpath):
+      with open(objpath, 'rb') as file:
+          return pickle.load(file)
+
   def processSubstrates(self, nd):
     substrates = []
     for substrateName in nd.keys():
