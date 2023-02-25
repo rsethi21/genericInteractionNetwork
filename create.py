@@ -6,17 +6,20 @@ from scipy.integrate import odeint
 from networkObj import Network
 from interactions import Interaction
 from substrate import Substrate
+import store
 
 parser = argparse.ArgumentParser(description='Create a cellular pathway mechanism.')
 
 parser.add_argument('-i', '--input', help='input a json file of the configurations of the network', required=True)
 parser.add_argument('-o', '--output', help='input a filepath for the output pdf with all output', required=False, default='./output.pdf')
+parser.add_argument('-s', '--save', help='path to file to save network object', required=False, default='output.pkl')
 
 if __name__ == '__main__':
     args = parser.parse_args()
     with open(args.input, 'r') as file:
         inputDict = json.load(file)
     newNetwork = Network('Test Network', inputDict)
+    store.saveIt(newNetwork, args.save)
     
     # integrate
     y0 = newNetwork.getInitialValues()
