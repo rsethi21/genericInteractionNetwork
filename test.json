@@ -1,0 +1,14 @@
+{
+    "A": {
+        "interactions": [["C", "dr", "A"], ["S1", "ur", "A"]], "initialValue": 1, "tag": "protein"
+    },
+    "B": {
+        "interactions": [["A", "ur", "B"]], "initialValue": 1, "tag": "protein"
+    },
+    "C": {
+        "interactions": [["B", "ur", "C"]], "initialValue": 1, "tag": "protein"
+    },
+    "S1": {
+        "initialValue": 0, "maxValue": 10, "tag": "stimulus", "timeStart": 50, "timeEnd": 75
+    }
+}
