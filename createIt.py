@@ -6,7 +6,7 @@ from scipy.integrate import odeint
 from networkObj import Network
 from interactions import Interaction
 from substrate import Substrate
-import store
+import storeIt
 
 parser = argparse.ArgumentParser(description='Create a cellular pathway mechanism.')
 
