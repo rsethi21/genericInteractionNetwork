@@ -17,6 +17,8 @@ parser.add_argument('-s', '--save', help='path to file to save network object', 
 
 if __name__ == '__main__':
     args = parser.parse_args()
+
+    # store object
     with open(args.input, 'r') as file:
         inputDict = json.load(file)
     newNetwork = Network('Test Network', inputDict)
@@ -26,6 +28,8 @@ if __name__ == '__main__':
     y0 = newNetwork.getInitialValues()
     time = np.linspace(0, 200, 200)
     y = odeint(newNetwork.diffEQs, y0, time)
+    # time_steady = newNetwork.findSteadyState()
+    # print(time_steady)
 
     # plot
     plt.figure(figsize=(6,4),dpi=100)
@@ -33,7 +37,6 @@ if __name__ == '__main__':
     plt.plot(time,y[:,1],'r-',label='B')
     plt.plot(time,y[:,2],'b-',label='C')
     plt.plot(time,y[:,3],'y-',label='S1')
-# plt.plot(time,y[:,4],'o-',label='D')
     plt.tick_params(direction='in',labelsize=12)
     plt.xlabel('Time [mins]',fontsize=12)
     plt.ylabel('Concentration [AU]',fontsize=12)
@@ -41,4 +44,5 @@ if __name__ == '__main__':
     plt.tight_layout()
     plt.savefig(args.output, format='pdf')
 
-    newNetwork.networkGraph('args.output')
+    # graph
+    newNetwork.networkGraph(args.output)

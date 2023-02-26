@@ -9,11 +9,26 @@ class Network:
     self.name = name
     self.substrates = self.processSubstrates(networkDictionary)
     self.interactions = self.processInteractions(networkDictionary)
+    self.values = {'y': {}, 'dydt': {}}
 
   @classmethod
   def readNetworkObject(cls, objpath):
       with open(objpath, 'rb') as file:
           return pickle.load(file)
+
+'''
+  def findSteadyState(self):
+    roc = self.values['dydt']
+    checkList = [0.000001 for i in range(len(self.substrates))]
+    confirmList = [True for i in range(len(self.substrates))]
+    for t in roc.keys():
+        testList = [value < checkValue for value, checkValue in zip(roc[t], checkList)]
+        if t == 0:
+            pass
+        elif testList == confirmList:
+            return t
+    return 'Unable to find steady state.'
+'''
 
   def processSubstrates(self, nd):
     substrates = []
@@ -91,6 +106,8 @@ class Network:
   def diffEQs(self, y, t):
     for s, yValue in zip(self.substrates, y):
       s.currentValue = yValue
+    
+    self.values['y'][t] = y
 
     interactionDictionary = {f'{substrate.name}':[] for substrate in self.substrates}
     for interaction in self.interactions:
@@ -119,6 +136,9 @@ class Network:
       
       else:
         dydt.append(self.stimuliRate(t, sub.timeStart, sub.timeEnd, sub.maxValue, sub.currentValue))
+
+    self.values['dydt'][t] = dydt
+
     return dydt
 
   def networkGraph(self, name):
@@ -129,6 +149,6 @@ class Network:
       if interaction.behavior == 'dr':
         ng.edge(n1, n2, color='red')
       else:
-        ng.edge(n1, n2, color='blue')
+        ng.edge(n1, n2, color='green')
     ng.render()
     print(f'Network diagram saved to {name}.pdf!')
