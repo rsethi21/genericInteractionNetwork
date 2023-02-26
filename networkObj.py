@@ -16,19 +16,17 @@ class Network:
       with open(objpath, 'rb') as file:
           return pickle.load(file)
 
-'''
-  def findSteadyState(self):
-    roc = self.values['dydt']
-    checkList = [0.000001 for i in range(len(self.substrates))]
-    confirmList = [True for i in range(len(self.substrates))]
-    for t in roc.keys():
-        testList = [value < checkValue for value, checkValue in zip(roc[t], checkList)]
-        if t == 0:
-            pass
-        elif testList == confirmList:
-            return t
-    return 'Unable to find steady state.'
-'''
+#  def findSteadyState(self):
+#    roc = self.values['dydt']
+#    checkList = [0.000001 for i in range(len(self.substrates))]
+#    confirmList = [True for i in range(len(self.substrates))]
+#    for t in roc.keys():
+#        testList = [value < checkValue for value, checkValue in zip(roc[t], checkList)]
+#        if t == 0:
+#            pass
+#        elif testList == confirmList:
+#            return t
+#    return 'Unable to find steady state.'
 
   def processSubstrates(self, nd):
     substrates = []

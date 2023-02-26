@@ -11,7 +11,7 @@ import store
 parser = argparse.ArgumentParser(description='Create a cellular pathway mechanism.')
 
 parser.add_argument('-i', '--input', help='input a json file of the configurations of the network', required=True)
-parser.add_argument('-o', '--output', help='input a filepath for the output pdf with all output', required=False, default='./output.pdf')
+parser.add_argument('-o', '--output', help='input a filepath for the output pdf with all output', required=False, default='./output')
 parser.add_argument('-s', '--save', help='path to file to save network object', required=False, default='output.pkl')
 
 
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     plt.ylabel('Concentration [AU]',fontsize=12)
     plt.legend(loc='right',fontsize=10)
     plt.tight_layout()
-    plt.savefig(args.output, format='pdf')
+    plt.savefig(f'{args.output}.pdf', format='pdf')
 
     # graph
     newNetwork.networkGraph(args.output)
