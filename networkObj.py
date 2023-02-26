@@ -2,6 +2,7 @@ from interactions import Interaction
 from substrate import Substrate
 import pdb
 import pickle
+import graphviz
 
 class Network:
   def __init__(self, name, networkDictionary):
@@ -119,3 +120,15 @@ class Network:
       else:
         dydt.append(self.stimuliRate(t, sub.timeStart, sub.timeEnd, sub.maxValue, sub.currentValue))
     return dydt
+
+  def networkGraph(self, name):
+    ng = graphviz.Digraph(name, format='pdf')
+    for interaction in self.interactions:
+      n1 = interaction.substrate1.name
+      n2 = interaction.substrate2.name
+      if interaction.behavior == 'dr':
+        ng.edge(n1, n2, color='red')
+      else:
+        ng.edge(n1, n2, color='blue')
+    ng.render()
+    print(f'Network diagram saved to {name}.pdf!')

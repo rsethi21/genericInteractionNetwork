@@ -14,6 +14,7 @@ parser.add_argument('-i', '--input', help='input a json file of the configuratio
 parser.add_argument('-o', '--output', help='input a filepath for the output pdf with all output', required=False, default='./output.pdf')
 parser.add_argument('-s', '--save', help='path to file to save network object', required=False, default='output.pkl')
 
+
 if __name__ == '__main__':
     args = parser.parse_args()
     with open(args.input, 'r') as file:
@@ -39,3 +40,5 @@ if __name__ == '__main__':
     plt.legend(loc='right',fontsize=10)
     plt.tight_layout()
     plt.savefig(args.output, format='pdf')
+
+    newNetwork.networkGraph('args.output')
