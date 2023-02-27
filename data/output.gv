@@ -1,0 +1,6 @@
+digraph "data/output" {
+	C -> A [color=red]
+	S1 -> A [color=green]
+	A -> B [color=green]
+	B -> C [color=green]
+}
