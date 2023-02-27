@@ -43,7 +43,7 @@ def editSubstrate(network, name, storeFile=None, substrateType=None, initialValu
     else:
         storeIt.saveIt(network, storeFile)
 
-def editInteraction(network, substrate1Name, substrate2Name, behavior=None, rate=None):
+def editInteraction(network, substrate1Name, substrate2Name, storeFile=None, behavior=None, rate=None):
     for interaction in network.interactions:
         if interaction.substrate1.name == substrate1Name and interaction.substrate2.name == substrate2Name:
             if behavior != None:
@@ -53,6 +53,10 @@ def editInteraction(network, substrate1Name, substrate2Name, behavior=None, rate
             print('Interaction Successfully Edited!')
         else:
             continue
+    if storeFile != None:
+        return network
+    else:
+        storeIt.saveIt(network, storeFile)
 
 def addSubstrate():
     return None
