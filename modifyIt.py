@@ -8,13 +8,13 @@ import storeIt
 import openIt
 import pickle
 
-parser = argparse.ArugmentParser(description='change the values of substrates or interactions')
+parser = argparse.ArgumentParser(description='change the values of substrates or interactions')
 parser.add_argument('-i', '-input', help='input pickle file path', required=True)
 
 # essentially can edit any of the substrate or interaction object attributes
 
 def openTheNetwork(filePath):
-    return openNetwork(filePath):
+    return openIt.openNetwork(filePath)
 
 def editSubstrate(network, name, storeFile=None, substrateType=None, initialValue=None, phosRate=None, dephosRate=None, maxValue=None, timeStart=None, timeEnd=None, currentValue=None):
     for substrate in network.substrates:
@@ -38,7 +38,7 @@ def editSubstrate(network, name, storeFile=None, substrateType=None, initialValu
             print('Substrate Successfully Edited')
         else:
             continue
-    if storeFile != None:
+    if storeFile == None:
         return network
     else:
         storeIt.saveIt(network, storeFile)
@@ -53,7 +53,7 @@ def editInteraction(network, substrate1Name, substrate2Name, storeFile=None, beh
             print('Interaction Successfully Edited!')
         else:
             continue
-    if storeFile != None:
+    if storeFile == None:
         return network
     else:
         storeIt.saveIt(network, storeFile)

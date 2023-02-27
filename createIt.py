@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(description='Create a cellular pathway mechanis
 
 parser.add_argument('-i', '--input', help='input a json file of the configurations of the network', required=True)
 parser.add_argument('-o', '--output', help='input a filepath for the output pdf with all output', required=False, default='./output')
-parser.add_argument('-s', '--save', help='path to file to save network object', required=False, default='output.pkl')
+parser.add_argument('-s', '--save', help='path to file to save network object', required=False, default='network.pkl')
 
 
 if __name__ == '__main__':
