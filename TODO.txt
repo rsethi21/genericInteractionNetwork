@@ -1,8 +1,10 @@
 TODOs
-- Could create a run_interaction function that would allow the user to open up an interact session if accessing object from a juypter notebook (tested it out, could return an interaction object tat can be called from the juypter notebook; down the road see if possible to create ad hoc html page to do this).
+- Could create a run_interaction function that would allow the user to open up an interact session if accessing object from a juypter notebook (tested it out, could return an interaction object that can be called from the juypter notebook; down the road see if possible to create ad hoc html page to do this).
+- add to modifyIt
 - migrate graphing code to graphIt module; ensure ability to graph experimental data
 - incopororate cooperativity and MM kinetics expressions for more robust modelling (expanding from the ODEs that this one creates)
 - explore fitter function (explore algorithms to allow for better fit
 - populate statistics module with simple statistical analyses
 - incorporate logging functionality
 - develop readme and add comments to code for readability
+- error handling (try/except)
