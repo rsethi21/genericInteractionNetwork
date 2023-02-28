@@ -1,0 +1,2 @@
+TODOs
+Could create a run_interaction function that would allow the user to open up an interact session if accessing object from a juypter notebook.
