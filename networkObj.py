@@ -3,6 +3,7 @@ from substrate import Substrate
 import pdb
 import pickle
 import graphviz
+import ipywidgets
 
 class Network:
   def __init__(self, name, networkDictionary):
@@ -27,6 +28,45 @@ class Network:
 #        elif testList == confirmList:
 #            return t
 #    return 'Unable to find steady state.'
+
+  def runInteractiveMode(self):
+    ratesDictionary = {}
+    for s in self.substrates:
+      k = s.phosRate
+      r = s.dephosRate
+      if s.name not in ratesDictionary.keys():
+        ratesDictionary[f'k_for_{s.name}'] = k
+        ratesDictionary[f'r_for_{s.name}'] = r
+      else:
+        pass
+
+    for i in self.interactions:
+      rate = i.rate
+      if rate == None:
+        continue
+      else:
+        if rate < 0:
+          identity = f'{i.substrate1.name}-|{i.substrate2.name}'
+        else:
+          identity = f'{i.substrate1.name}->{i.substrate2.name}'
+        if identity not in ratesDictionary.keys():
+          ratesDictionary[identity] = rate
+        else:
+          pass
+
+    inputDictionary = {}
+
+    for key, value in ratesDictionary.items():
+      if value < 0:
+        inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=-10.0, max=0.0, step=-0.1, description=key, readout=True)
+      else:
+        inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=0, max=10.0, step=0.1, description=key, readout=True)
+
+    def adjust(**parameters):
+      print(parameters)
+      print(ratesDictionary)
+
+    return ipywidgets.interact(adjust, **inputDictionary)
 
   def processSubstrates(self, nd):
     substrates = []
