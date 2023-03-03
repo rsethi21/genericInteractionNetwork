@@ -81,7 +81,7 @@ class Network:
             if i.substrate1 == sub1 and i.substrate2 == sub2:
               i.rate = rate
     # graphIt
-      if saveWidget.value == True:
+      if saveWidget == True:
         storeIt.saveIt(self, '../newOutput.pkl')
         exit()
 
