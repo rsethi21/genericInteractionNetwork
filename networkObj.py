@@ -1,5 +1,6 @@
 from interactions import Interaction
 from substrate import Substrate
+import storeIt
 import modifyIt
 import pdb
 import graphviz
@@ -57,13 +58,31 @@ class Network:
       else:
         inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=0, max=10.0, step=0.1, description=key, readout=True)
 
-    def adjust(**parameters):
+    def adjust(save='no', **parameters):
       for key, value in parameters.items():
-        print(key)
-        print(value)
+        if key[0] == 'k':
+          subs = key[-1]
+          for s in self.substrates:
+            if subs == s.name:
+              s.phosRate = value
+        elif key[0] == 'r':
+          subs = key[-1]
+          for s in self.substrates:
+            if subs == s.name:
+              s.dephosRate = value
+        else:
+          sub1 = key[0]
+          sub2 = key[3]
+          for i in self.interactions:
+            if i.substrate1 == sub1 and i.substrate2 == sub2:
+              i.rate = rate
+    # graphIt
+      if save == 'yes':
+        storeIt.saveIt(self, '../newOutput.pkl')
+          
 
 
-    return ipywidgets.interact(adjust, **inputDictionary)
+    return ipywidgets.interact(adjust, save=['', 'yes', 'no'], **inputDictionary)
 
   def processSubstrates(self, nd):
     substrates = []
