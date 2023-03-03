@@ -1,5 +1,6 @@
 from interactions import Interaction
 from substrate import Substrate
+import modifyIt
 import pdb
 import pickle
 import graphviz
@@ -63,8 +64,10 @@ class Network:
         inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=0, max=10.0, step=0.1, description=key, readout=True)
 
     def adjust(**parameters):
-      print(parameters)
-      print(ratesDictionary)
+      for key, value in parameters.items():
+        print(key)
+        print(value)
+
 
     return ipywidgets.interact(adjust, **inputDictionary)
 
