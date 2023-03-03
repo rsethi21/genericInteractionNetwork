@@ -82,10 +82,10 @@ class Network:
               i.rate = rate
     # graphIt
       if saveWidget == True:
-        storeIt.saveIt(self, '../newOutput.pkl')
-        exit()
-
- 
+        print("Input file path:: ")
+        filepath = input()
+        storeIt.saveIt(self, filepath)
+        return
 
     return ipywidgets.interact(adjust, saveWidget = ipywidgets.ToggleButton(value=False,
     description='Save',
