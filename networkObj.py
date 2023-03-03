@@ -58,7 +58,11 @@ class Network:
       else:
         inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=0, max=10.0, step=0.1, description=key, readout=True)
 
-    def adjust(save='no', **parameters):
+    
+    
+    
+
+    def adjust(saveWidget=False, **parameters):
       for key, value in parameters.items():
         if key[0] == 'k':
           subs = key[-1]
@@ -77,12 +81,19 @@ class Network:
             if i.substrate1 == sub1 and i.substrate2 == sub2:
               i.rate = rate
     # graphIt
-      if save == 'yes':
+      if saveWidget.value == True:
         storeIt.saveIt(self, '../newOutput.pkl')
-          
+        exit()
 
+ 
 
-    return ipywidgets.interact(adjust, save=['', 'yes', 'no'], **inputDictionary)
+    return ipywidgets.interact(adjust, saveWidget = ipywidgets.ToggleButton(value=False,
+    description='Save',
+    disabled=False,
+    button_style='',
+    tooltip='Description',
+    icon='check'
+), **inputDictionary)
 
   def processSubstrates(self, nd):
     substrates = []
