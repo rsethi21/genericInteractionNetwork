@@ -89,8 +89,8 @@ class Network:
           print("Enter Filepath!")
 
     return ipywidgets.interact(adjust, filepath=ipywidgets.Text(value=None,
-    placeholder='Type Filepath',
-    description='String:',
+    placeholder='path/to/file',
+    description='Filepath:',
     disabled=False), saveWidget = ipywidgets.ToggleButton(value=False,
     description='Save',
     disabled=False,
