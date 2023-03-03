@@ -2,7 +2,6 @@ from interactions import Interaction
 from substrate import Substrate
 import modifyIt
 import pdb
-import pickle
 import graphviz
 import ipywidgets
 
@@ -12,11 +11,6 @@ class Network:
     self.substrates = self.processSubstrates(networkDictionary)
     self.interactions = self.processInteractions(networkDictionary)
     self.values = {'y': {}, 'dydt': {}}
-
-  @classmethod
-  def readNetworkObject(cls, objpath):
-      with open(objpath, 'rb') as file:
-          return pickle.load(file)
 
 #  def findSteadyState(self):
 #    roc = self.values['dydt']
