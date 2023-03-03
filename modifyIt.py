@@ -1,7 +1,6 @@
 import argparse
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
-from networkObj import Network
 from interactions import Interaction
 from substrate import Substrate
 import storeIt
