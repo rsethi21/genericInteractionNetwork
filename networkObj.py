@@ -62,7 +62,7 @@ class Network:
     
     
 
-    def adjust(saveWidget=False, **parameters):
+    def adjust(filepath=None, saveWidget=False, **parameters):
       for key, value in parameters.items():
         if key[0] == 'k':
           subs = key[-1]
@@ -82,12 +82,16 @@ class Network:
               i.rate = rate
     # graphIt
       if saveWidget == True:
-        print("Input file path:: ")
-        filepath = input()
-        storeIt.saveIt(self, filepath)
-        return
+        if filepath != None:
+          storeIt.saveIt(self, filepath)
+          return
+        else:
+          print("Enter Filepath!")
 
-    return ipywidgets.interact(adjust, saveWidget = ipywidgets.ToggleButton(value=False,
+    return ipywidgets.interact(adjust, filepath=ipywidgets.Text(value=None,
+    placeholder='Type Filepath',
+    description='String:',
+    disabled=False), saveWidget = ipywidgets.ToggleButton(value=False,
     description='Save',
     disabled=False,
     button_style='',
