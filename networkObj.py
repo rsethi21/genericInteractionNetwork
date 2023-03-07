@@ -84,15 +84,15 @@ class Network:
         
         
 
-      if saveWidget == True:
-        if filepath != None:
-          storeIt.saveIt(self, filepath)
-          return
-        else:
-          print("Enter Filepath!")
+        if saveWidget == True:
+            if filepath != None:
+                storeIt.saveIt(self, filepath)
+                return
+            else:
+                print("Enter Filepath!")
       
-      if resetWidget == True:
-        adjust(**ratesDictionary)
+        if resetWidget == True:
+            adjust(**ratesDictionary)
 
     return ipywidgets.interact(adjust, filepath=ipywidgets.Text(value=None,
     placeholder='path/to/file',
@@ -103,7 +103,9 @@ class Network:
     button_style='',
     tooltip='Description',
     icon='check'
-), **inputDictionary)
+), resetWidget=ipywidgets.ToggleButton(value=False,
+    description='Reset',
+    disabled=False, button_style='', icon='check'), **inputDictionary)
 
   def processSubstrates(self, nd):
     substrates = []
