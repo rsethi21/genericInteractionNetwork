@@ -58,10 +58,6 @@ class Network:
       else:
         inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=0, max=10.0, step=0.1, description=key, readout=True)
 
-    
-    
-    
-
     def adjust(filepath=None, saveWidget=False, resetWidget=False, **parameters):
         for key, value in parameters.items():
           if key[0] == 'k':
@@ -92,7 +88,7 @@ class Network:
                 print("Enter Filepath!")
       
         if resetWidget == True:
-            adjust(**ratesDictionary)
+            return adjust(**ratesDictionary)
 
     return ipywidgets.interact(adjust, filepath=ipywidgets.Text(value=None,
     placeholder='path/to/file',
