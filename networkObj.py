@@ -61,6 +61,7 @@ class Network:
     def adjust(filepath=None, saveWidget=False, resetWidget=False, **parameters):
         if resetWidget == True:
           parameters = ratesDictionary
+          print("Parameters reset in network!")
 
         for key, value in parameters.items():
           if key[0] == 'k':
