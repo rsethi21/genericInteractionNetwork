@@ -64,22 +64,22 @@ class Network:
 
     def adjust(filepath=None, saveWidget=False, resetWidget=False, **parameters):
         for key, value in parameters.items():
-        if key[0] == 'k':
-          subs = key[-1]
-          for s in self.substrates:
-            if subs == s.name:
-              s.phosRate = value
-        elif key[0] == 'r':
-          subs = key[-1]
-          for s in self.substrates:
-            if subs == s.name:
-              s.dephosRate = value
-        else:
-          sub1 = key[0]
-          sub2 = key[3]
-          for i in self.interactions:
-            if i.substrate1 == sub1 and i.substrate2 == sub2:
-              i.rate = rate
+          if key[0] == 'k':
+            subs = key[-1]
+            for s in self.substrates:
+              if subs == s.name:
+                s.phosRate = value
+          elif key[0] == 'r':
+            subs = key[-1]
+            for s in self.substrates:
+              if subs == s.name:
+                s.dephosRate = value
+          else:
+            sub1 = key[0]
+            sub2 = key[3]
+            for i in self.interactions:
+              if i.substrate1 == sub1 and i.substrate2 == sub2:
+                i.rate = rate
     # graphIt
         
         
