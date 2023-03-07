@@ -59,6 +59,9 @@ class Network:
         inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=0, max=10.0, step=0.1, description=key, readout=True)
 
     def adjust(filepath=None, saveWidget=False, resetWidget=False, **parameters):
+        if resetWidget == True:
+          parameters = ratesDictionary
+
         for key, value in parameters.items():
           if key[0] == 'k':
             subs = key[-1]
@@ -78,17 +81,12 @@ class Network:
                 i.rate = rate
     # graphIt
         
-        
-
         if saveWidget == True:
             if filepath != None:
                 storeIt.saveIt(self, filepath)
                 return
             else:
                 print("Enter Filepath!")
-      
-        if resetWidget == True:
-            return adjust(**ratesDictionary)
 
     return ipywidgets.interact(adjust, filepath=ipywidgets.Text(value=None,
     placeholder='path/to/file',
@@ -101,7 +99,7 @@ class Network:
     icon='check'
 ), resetWidget=ipywidgets.ToggleButton(value=False,
     description='Reset',
-    disabled=False, button_style='', icon='check'), **inputDictionary)
+    disabled=False, button_style='', disabled=False, icon='check'), **inputDictionary)
 
   def processSubstrates(self, nd):
     substrates = []
