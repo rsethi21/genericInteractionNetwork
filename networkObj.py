@@ -1,6 +1,7 @@
 from interactions import Interaction
 from substrate import Substrate
 import storeIt
+import graphIt
 import modifyIt
 import pdb
 import graphviz
@@ -80,6 +81,7 @@ class Network:
             for i in self.interactions:
               if i.substrate1 == sub1 and i.substrate2 == sub2:
                 i.rate = rate
+          graphIt.plot(self)
     # graphIt
         
         if saveWidget == True:
