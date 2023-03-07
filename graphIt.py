@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # essentially will be a graphing module
 def plot(network, saveFile=None, points=None, *names): # come back to points
     if len(names) == 0:
-        graph = [(i, s) for s in enumerate(network.substrates)]
+        graph = [(i, s) for i, s in enumerate(network.substrates)]
     else:
         graph = []
         for i, s in enumerate(network.substrates):
