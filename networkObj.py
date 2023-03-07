@@ -99,7 +99,7 @@ class Network:
     icon='check'
 ), resetWidget=ipywidgets.ToggleButton(value=False,
     description='Reset',
-    disabled=False, button_style='', disabled=False, icon='check'), **inputDictionary)
+    disabled=False, button_style='', icon='check'), **inputDictionary)
 
   def processSubstrates(self, nd):
     substrates = []
