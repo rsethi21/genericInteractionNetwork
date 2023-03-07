@@ -59,7 +59,7 @@ class Network:
       else:
         inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=0, max=10.0, step=0.1, description=key, readout=True)
 
-    def adjust(filepath=None, saveWidget=False, resetWidget=False, **parameters):
+    def adjust(filepath=None, saveWidget=False, resetWidget=False, graphWidget=False, **parameters):
         if resetWidget == True:
           parameters = ratesDictionary
           print("Parameters reset in network!")
@@ -81,6 +81,7 @@ class Network:
             for i in self.interactions:
               if i.substrate1 == sub1 and i.substrate2 == sub2:
                 i.rate = rate
+        if graphWidget == True:
           graphIt.plot(self)
     # graphIt
         
@@ -102,6 +103,8 @@ class Network:
     icon='check'
 ), resetWidget=ipywidgets.ToggleButton(value=False,
     description='Reset',
+    disabled=False, button_style='', icon='check'), graphWidget=ipywidgets.ToggleButton(value=False,
+    description='Graph',
     disabled=False, button_style='', icon='check'), **inputDictionary)
 
   def processSubstrates(self, nd):
