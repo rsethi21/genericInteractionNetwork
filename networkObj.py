@@ -62,8 +62,8 @@ class Network:
     
     
 
-    def adjust(filepath=None, saveWidget=False, **parameters):
-      for key, value in parameters.items():
+    def adjust(filepath=None, saveWidget=False, resetWidget=False, **parameters):
+        for key, value in parameters.items():
         if key[0] == 'k':
           subs = key[-1]
           for s in self.substrates:
@@ -81,12 +81,18 @@ class Network:
             if i.substrate1 == sub1 and i.substrate2 == sub2:
               i.rate = rate
     # graphIt
+        
+        
+
       if saveWidget == True:
         if filepath != None:
           storeIt.saveIt(self, filepath)
           return
         else:
           print("Enter Filepath!")
+      
+      if resetWidget == True:
+        adjust(**ratesDictionary)
 
     return ipywidgets.interact(adjust, filepath=ipywidgets.Text(value=None,
     placeholder='path/to/file',
