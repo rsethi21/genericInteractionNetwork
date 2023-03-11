@@ -59,3 +59,12 @@ def editInteraction(network, substrate1Name, substrate2Name, storeFile=None, beh
 
 def addSubstrate():
     return None
+
+def addInteraction():
+    return None
+
+def removeSubstrate():
+    return None
+
+def removeInteraction():
+    return None
