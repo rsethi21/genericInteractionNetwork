@@ -1,14 +1,31 @@
 # implementation of genetic algorithm
     # later can add other heuristic/approaches
+from dataclasses import dataclass
 import argparse
 from tqdm import tqdm
 import openIt
 import modifyIt
 from scipy.integrate import odeint
+import math
+import pandas
 
+@dataclass
+class Gen:
+    genNum: int
+    population: list
+    scores: list
+    parents: list = None
+    children: list = None
+    newpopulation: list = None
+
+    def newPop(self):
+        return
+
+    def createDF(self):
+        return
 
 class geneticAlgo:
-    def __init__(self, network, data, time, crossRate=0.8, mutRate=0.1, numGens=10, numInds=10, constraints=None):
+    def __init__(self, network, data, time, crossRate=0.8, mutRate=0.1, numGens=30, numparents=14, constraints=None):
         self.network = network
         self.data = data
         self.time = time
@@ -16,9 +33,11 @@ class geneticAlgo:
         self.crossRate = crossRate
         self.mutRate = mutRate
         self.numGens = numGens
-        self.numInds = numInds
         self.initialpopulation = []
+        self.numparents = numparents
+        self.numInds = math.comb(numparents, 2) + numparents
         self.constraints = constraints
+        self.pastGens = []
 
     def initialPopulation(self):
         ratesDictionary = {}
@@ -47,7 +66,7 @@ class geneticAlgo:
         population = list(ratesDictionary.values()) # add more
         self.ratesDict = ratesDictionary
         self.initialpopulation = population
-        
+
     def adjustModel(self, rates):
         y = None
         keys = list(self.ratesDict.keys())
@@ -89,13 +108,14 @@ class geneticAlgo:
                 rss += cost
         return rss
 
-    def selection():
+    def selection(self, df):
+        sortedPop = 0
         return
 
-    def mating():
+    def mating(self, parents):
         return
 
-    def mutation():
+    def mutation(self, children):
         return
 
     def convergence():
@@ -105,6 +125,33 @@ class geneticAlgo:
         return
 
     def run(self):
-        self.initialPopulation()
-        y = self.adjustModel(self.initialpopulation)
-        return self.cost(y)
+        # rethink, probably won't need this part
+        
+        # for individual in initialpop:
+        #     y = self.adjustModel(individual)
+        #     initialCosts = self.cost(y)
+        #     initialGen = Gen(0, initialpop, initialCosts)
+        # df = initialGen.createDF()
+        # parents = self.selection(df)
+        # children = self.mating(parents)
+        # children = self.mutation(children)
+        # initialGen.parents = parents
+        # initialGen.children = children
+        # self.pastGens.append(initialGen)
+
+        for i in range(self.numGens+1):
+            try:
+                pastGen = self.pastGens[i-1]
+            except:
+                initialpop = self.initialpopulation()
+                initialGen = Gen(0, initialpop, None)
+                self.pastGens.append(initialGen)
+                
+            nextGen = None
+            
+            newpopulation = pastGen.newPop()
+            for inidivudal in newpopulation:
+                y = self.adjustModel(individual)
+                costs = self.cost(y)
+                nextGen = Gen(i,newpopulation, costs)
+            newdf = 

@@ -1,5 +1,6 @@
 TODOs
 # Primary
+- add types enzyme, protein, ligand, other; within enzyme add active/inactive fields if necessary
 - stimulus should only have max-value and timing change
 - make it so that the stimulus and substrate have a separately defined interaction
 - add to modifyIt and use it in the other algorithms
