@@ -1,5 +1,7 @@
 from interactions import Interaction
-from substrate import Substrate
+from substrate import Protein
+from substrate import Enzyme
+from substrate import Influence
 import storeIt
 import graphIt
 import modifyIt
@@ -27,6 +29,7 @@ class Network:
 #    return 'Unable to find steady state.'
 
   def runInteractiveMode(self):
+    # fix this in terms of new labels
     ratesDictionary = {}
     for s in self.substrates:
       k = s.phosRate
@@ -110,7 +113,8 @@ class Network:
   def processSubstrates(self, nd):
     substrates = []
     for substrateName in nd.keys():
-      if nd[substrateName]['tag'] == 'protein':
+      if nd[substrateName]['tag'] == 'enzyme':
+        
         try:
           k = nd[substrateName]['phosRate']
         except:
@@ -119,21 +123,24 @@ class Network:
           r = nd[substrateName]['dephosRate']
         except:
           r = -0.1
-        substrate = Substrate(substrateName, nd[substrateName]['tag'], initialValue=nd[substrateName]['initialValue'], phosRate=k, dephosRate=r)
+        substrate = Enzyme(substrateName, initialValue=nd[substrateName]['initialValue'], phosRate=k, dephosRate=r)
         substrates.append(substrate)
       elif nd[substrateName]['tag'] == 'stimulus':
+        substrate = Influence(substrateName, initialValue=nd[substrateName]['initialValue'], maxValue=nd[substrateName]['maxValue'], timeStart=nd[substrateName]['timeStart'], timeEnd=nd[substrateName]['timeEnd'])
+        substrates.append(substrate)
+      elif nd[substrateName]['tag'] == 'protein':
         try:
-          k = nd[substrateName]['phosRate']
+          k = nd[substrateName]['transRate']
         except:
           k = 1.0
         try:
-          r = nd[substrateName]['dephosRate']
+          r = nd[substrateName]['degradRate']
         except:
           r = -0.1
-        substrate = Substrate(substrateName, nd[substrateName]['tag'], initialValue=nd[substrateName]['initialValue'], phosRate=k, dephosRate=r, maxValue=nd[substrateName]['maxValue'], timeStart=nd[substrateName]['timeStart'], timeEnd=nd[substrateName]['timeEnd'])
+        substrate = Protein(substrateName, initialValue=nd[substrateName]['initialValue'], degradRate=r, transRate=k)
         substrates.append(substrate)
       else:
-        print('Not a possible substrate.')
+        print('Not a possible substrate. Make sure tags are all lower-case.')
     return substrates
   
   def processInteractions(self, nd):
@@ -181,20 +188,45 @@ class Network:
     return currentRate
 
   def diffEQs(self, y, t):
+    
     for s, yValue in zip(self.substrates, y):
       s.currentValue = yValue
     
     self.values['y'][t] = y
-
     interactionDictionary = {f'{substrate.name}':[] for substrate in self.substrates}
+    
     for interaction in self.interactions:
       interactionDictionary[interaction.substrate2.name].append(interaction)
+    
     dydt = []
+    
     for substrateName in interactionDictionary.keys():
       sub = [s for s in self.substrates if s.name == substrateName][0]
-      if sub.substrateType != 'stimulus':
+      
+      if sub.substrateType == 'enzyme':
+      # change this to create the rate for the opposite inactivate form
         positiveRate = sub.phosRate
         negativeRate = sub.dephosRate*sub.currentValue
+        additionalRate = 0
+        # otherFormRate = {}
+        for interaction in interactionDictionary[substrateName]:
+          if interaction.behavior == 'ur':
+            if interaction.rate == None:
+              positiveRate *= interaction.substrate1.currentValue
+            else:
+              additionalRate += interaction.rate*interaction.substrate1.currentValue
+          elif interaction.behavior == 'dr':
+            if interaction.rate == None:
+              negativeRate *= interaction.substrate1.currentValue
+            else:
+              additionalRate += interaction.rate*interaction.substrate1.currentValue
+          else:
+            pass
+        dydt.append(positiveRate+negativeRate+additionalRate)
+
+      elif sub.substrateType == 'protein':
+        positiveRate = sub.transRate
+        negativeRate = sub.degradRate*sub.currentValue
         additionalRate = 0
         for interaction in interactionDictionary[substrateName]:
           if interaction.behavior == 'ur':
@@ -229,3 +261,20 @@ class Network:
         ng.edge(n1, n2, color='green')
     ng.render()
     print(f'Network diagram saved to {name}.pdf!')
+
+
+
+ # try:
+          # fix this to incorporate opposite enzyme
+          #   if substrateName == nd[substrateName]['active'][0]:
+          #     form = 'active'
+          #     substrate = Enzyme(substrateName, otherFormName=nd[substrateName]['inactive'][0], initialValue=nd[substrateName]['active'][1], phosRate=k, dephosRate=r, form=form)
+          #     substrate2 = Enzyme(nd[substrateName]['inactive'][0], otherFormName=substrateName, initialValue=nd[substrateName]['inactive'][1], phosRate=-1*r, dephosRate=-1*k, form='inactive')
+          #     substrates.append(substrate, substrate2)
+          #   else:
+          #     form = 'inactive'
+          #     substrate = Enzyme(substrateName, otherFormName=nd[substrateName]['active'][0], initialValue=nd[substrateName]['initialValue'], phosRate=k, dephosRate=r, form=form)
+          #     substrate2 = Enzyme(nd[substrateName]['active'][0], otherFormName=substrateName, initialValue=nd[substrateName]['active'][1], phosRate=-1*r, dephosRate=-1*k, form='active')
+          #     substrates.append(substrate, substrate2)
+          # except:
+          #   form = None

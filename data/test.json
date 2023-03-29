@@ -1,14 +1,23 @@
 {
     "A": {
-        "interactions": [["C", "dr", "A"], ["S1", "ur", "A"]], "initialValue": 1, "tag": "protein"
+        "interactions": [["C", "ur", "A"], ["S", "ur", "A", 2.0], ["A*", "ur", "A"]], "initialValue": 1, "tag": "enzyme"
+    },
+    "A*": {
+        "interactions": [["C", "dr", "A*"], ["A", "ur", "A*"]], "initialValue": 1, "tag": "enzyme"
     },
     "B": {
-        "interactions": [["A", "ur", "B"]], "initialValue": 1, "tag": "protein"
+        "interactions": [["A", "dr", "B"], ["B*", "ur", "B"]], "tag": "enzyme", "initialValue": 1
+    },
+    "B*": {
+        "interactions": [["A", "ur", "B*"], ["B", "ur", "B*"]], "tag": "enzyme", "initialValue": 1
     },
     "C": {
-        "interactions": [["B", "ur", "C"]], "initialValue": 1, "tag": "protein"
+        "interactions": [["B*", "ur", "C"]], "tag": "enzyme", "initialValue": 1
     },
-    "S1": {
+    "S": {
         "initialValue": 0, "maxValue": 10, "tag": "stimulus", "timeStart": 50, "timeEnd": 75
+    },
+    "O": {
+        "interactions": [["C", "ur", "O", 0.5]], "initialValue": 0, "tag": "protein"
     }
 }
