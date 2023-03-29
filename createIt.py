@@ -5,7 +5,9 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 from networkObj import Network
 from interactions import Interaction
-from substrate import Substrate
+from substrate import Enzyme
+from substrate import Protein
+from substrate import Influence
 import storeIt
 
 parser = argparse.ArgumentParser(description='Create a cellular pathway mechanism.')

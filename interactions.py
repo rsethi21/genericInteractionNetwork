@@ -1,5 +1,7 @@
 from dataclasses import dataclass
-from substrate import Substrate
+from substrate import Enzyme
+from substrate import Protein
+from substrate import Influence
 import pdb
 
 @dataclass
