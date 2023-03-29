@@ -14,6 +14,7 @@ class Network:
     self.name = name
     self.substrates = self.processSubstrates(networkDictionary)
     self.interactions = self.processInteractions(networkDictionary)
+    self.expressions = self.rateExpressions()
     self.values = {'y': {}, 'dydt': {}}
 
 #  def findSteadyState(self):
@@ -186,6 +187,65 @@ class Network:
         else:
           currentRate = -value
     return currentRate
+
+
+  def rateExpressions(self):
+    
+    interactionDictionary = {f'{substrate.name}':[] for substrate in self.substrates}
+    
+    for interaction in self.interactions:
+      interactionDictionary[interaction.substrate2.name].append(interaction)
+    
+    dydt = []
+    
+    for substrateName in interactionDictionary.keys():
+      sub = [s for s in self.substrates if s.name == substrateName][0]
+      
+      if sub.substrateType == 'enzyme':
+      # change this to create the rate for the opposite inactivate form
+        positiveRate = "k"
+        negativeRate = f"r{sub.name}"
+        additionalRate = ""
+        # otherFormRate = {}
+        for interaction in interactionDictionary[substrateName]:
+          if interaction.behavior == 'ur':
+            if interaction.rate == None:
+              positiveRate += interaction.substrate1.name
+            else:
+              additionalRate += f"s{interaction.substrate1.name}"
+          elif interaction.behavior == 'dr':
+            if interaction.rate == None:
+              negativeRate += interaction.substrate1.name
+            else:
+              additionalRate += f"d{interaction.substrate1.name}"
+          else:
+            pass
+        dydt.append(f"d{sub.name}/dt = {positiveRate} + {negativeRate} + {additionalRate}")
+
+      elif sub.substrateType == 'protein':
+        positiveRate = "k"
+        negativeRate = f"r{sub.name}"
+        additionalRate = ""
+        for interaction in interactionDictionary[substrateName]:
+          if interaction.behavior == 'ur':
+            if interaction.rate == None:
+              positiveRate += interaction.substrate1.name
+            else:
+              additionalRate += f"s{interaction.substrate1.name}"
+          elif interaction.behavior == 'dr':
+            if interaction.rate == None:
+              negativeRate += interaction.substrate1.name
+            else:
+              additionalRate += f"d{interaction.substrate1.name}"
+          else:
+            pass
+        dydt.append(f"d{sub.name}/dt = {positiveRate} + {negativeRate} + {additionalRate}")
+      
+      else:
+        dydt.append(f"d{sub.name}/dt = 0")
+
+    return dydt
+
 
   def diffEQs(self, y, t):
     
