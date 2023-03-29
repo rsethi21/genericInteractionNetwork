@@ -220,7 +220,10 @@ class Network:
               additionalRate += f"d{interaction.substrate1.name}"
           else:
             pass
-        dydt.append(f"d{sub.name}/dt = {positiveRate} + {negativeRate} + {additionalRate}")
+        if additionalRate != "":
+            dydt.append(f"d{sub.name}/dt = {positiveRate} + {negativeRate} + {additionalRate}")
+        else:
+            dydt.append(f"d{sub.name}/dt = {positiveRate} + {negativeRate}")
 
       elif sub.substrateType == 'protein':
         positiveRate = "k"
@@ -239,7 +242,10 @@ class Network:
               additionalRate += f"d{interaction.substrate1.name}"
           else:
             pass
-        dydt.append(f"d{sub.name}/dt = {positiveRate} + {negativeRate} + {additionalRate}")
+        if additionalRate != "":
+            dydt.append(f"d{sub.name}/dt = {positiveRate} + {negativeRate} + {additionalRate}")
+        else:
+            dydt.append(f"d{sub.name}/dt = {positiveRate} + {negativeRate}")
       
       else:
         dydt.append(f"d{sub.name}/dt = 0")
@@ -310,7 +316,7 @@ class Network:
 
     return dydt
 
-  def networkGraph(self, name):
+  def networkGraph(self, name, directory):
     ng = graphviz.Digraph(name, format='pdf')
     for interaction in self.interactions:
       n1 = interaction.substrate1.name
@@ -319,8 +325,8 @@ class Network:
         ng.edge(n1, n2, color='red')
       else:
         ng.edge(n1, n2, color='green')
-    ng.render()
-    print(f'Network diagram saved to {name}.pdf!')
+    ng.render(directory=directory)
+    print(f'Network diagram saved to {directory}!')
 
 
 

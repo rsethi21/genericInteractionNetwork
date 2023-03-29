@@ -9,11 +9,12 @@ from substrate import Enzyme
 from substrate import Protein
 from substrate import Influence
 import storeIt
+import os
 
 parser = argparse.ArgumentParser(description='Create a cellular pathway mechanism.')
 
 parser.add_argument('-i', '--input', help='input a json file of the configurations of the network', required=True)
-parser.add_argument('-o', '--output', help='input a filepath for the output pdf with all output', required=False, default='./output')
+parser.add_argument('-o', '--output', help='input a directory for the output pdf with all output', required=False, default='./output')
 parser.add_argument('-s', '--save', help='path to file to save network object', required=False, default='network.pkl')
 
 
@@ -39,13 +40,14 @@ if __name__ == '__main__':
     plt.plot(time,y[:,1],'r-',label='B')
     plt.plot(time,y[:,2],'b-',label='C')
     plt.plot(time,y[:,3],'y-',label='S')
-    plt.plot(time,y[:,4],'t',label='O')
+    plt.plot(time,y[:,4],'m-',label='O')
     plt.tick_params(direction='in',labelsize=12)
     plt.xlabel('Time [mins]',fontsize=12)
     plt.ylabel('Concentration [AU]',fontsize=12)
     plt.legend(loc='right',fontsize=10)
     plt.tight_layout()
-    plt.savefig(f'{args.output}.pdf', format='pdf')
+    plt.savefig(os.path.join(args.output, 'output.pdf'), format='pdf')
 
     # graph
-    newNetwork.networkGraph(args.output)
+    
+    newNetwork.networkGraph('output', args.output)

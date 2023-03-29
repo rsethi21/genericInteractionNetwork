@@ -6,7 +6,7 @@ import pdb
 
 @dataclass
 class Interaction:
-  substrate1: Substrate
-  substrate2: Substrate
+  substrate1: None
+  substrate2: None
   behavior: str
   rate: float = None
