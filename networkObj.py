@@ -33,13 +33,32 @@ class Network:
     # fix this in terms of new labels
     ratesDictionary = {}
     for s in self.substrates:
-      k = s.phosRate
-      r = s.dephosRate
-      if s.name not in ratesDictionary.keys():
-        ratesDictionary[f'k_for_{s.name}'] = k
-        ratesDictionary[f'r_for_{s.name}'] = r
+      if s.name == 'enzyme':
+        k = s.phosRate
+        r = s.dephosRate
+        if s.name not in ratesDictionary.keys():
+          ratesDictionary[f'k_for_{s.name}'] = k
+          ratesDictionary[f'r_for_{s.name}'] = r
+        else:
+          pass
+      elif s.name == 'protein':
+        k = s.transRate
+        r = s.degradRate
+        if s.name not in ratesDictionary.keys():
+          ratesDictionary[f'k_for_{s.name}'] = k
+          ratesDictionary[f'r_for_{s.name}'] = r
+        else:
+          pass
       else:
-        pass
+        i = s.initialValue
+        m = s.maxValue
+        start = s.timeStart
+        end = s.timeEnd
+        if s.name not in ratesDictionary.keys():
+          ratesDictionary[f'max_for_{s.name}'] = m
+          ratesDictionary[f'initial_for_{s.name}'] = i
+          ratesDictionary[f'start_for_{s.name}'] = start
+          ratesDictionary[f'end_for_{s.name}'] = end
 
     for i in self.interactions:
       rate = i.rate
@@ -47,9 +66,9 @@ class Network:
         continue
       else:
         if rate < 0:
-          identity = f'{i.substrate1.name}-|{i.substrate2.name}'
+          identity = f'rate for {i.substrate1.name}-|{i.substrate2.name}'
         else:
-          identity = f'{i.substrate1.name}->{i.substrate2.name}'
+          identity = f'rate for {i.substrate1.name}->{i.substrate2.name}'
         if identity not in ratesDictionary.keys():
           ratesDictionary[identity] = rate
         else:
@@ -58,10 +77,13 @@ class Network:
     inputDictionary = {}
 
     for key, value in ratesDictionary.items():
-      if value < 0:
-        inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=-10.0, max=0.0, step=-0.1, description=key, readout=True)
+      if key[0] == 'k' or key[0] == 'r' or key.startswith('rate') == True:
+        if value < 0:
+          inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=-10.0, max=0.0, step=-0.1, description=key, readout=True)
+        else:
+          inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=0, max=10.0, step=0.1, description=key, readout=True)
       else:
-        inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=0, max=10.0, step=0.1, description=key, readout=True)
+        inputDictionary[key] = ipywidgets.FloatText(value=value, description=key)
 
     def adjust(filepath=None, saveWidget=False, resetWidget=False, graphWidget=False, **parameters):
         if resetWidget == True:
@@ -70,21 +92,46 @@ class Network:
 
         for key, value in parameters.items():
           if key[0] == 'k':
-            subs = key[-1]
+            subs = key[key.rindex('_')+1:]
             for s in self.substrates:
               if subs == s.name:
-                s.phosRate = value
+                try:
+                  s.phosRate = value
+                except:
+                  s.transRate = value
           elif key[0] == 'r':
-            subs = key[-1]
+            subs = key[key.rindex('_')+1:]
             for s in self.substrates:
               if subs == s.name:
-                s.dephosRate = value
-          else:
-            sub1 = key[0]
-            sub2 = key[3]
+                try:
+                  s.dephosRate = value
+                except:
+                  s.degradRate = value
+          elif key.startswith('rate') == True:
+            index1 = key.find('for ')
+            index2 = key.find('-')
+            sub1 = key[index1+4:index2]
+            sub2 = key[index2+2:]
             for i in self.interactions:
               if i.substrate1 == sub1 and i.substrate2 == sub2:
                 i.rate = rate
+          else:
+            # add the stimulus stuff to this
+            index = key.rindex('_')
+            index2 = key.index('_')
+            subs = key[index+1:]
+            for s in self.substrates:
+              if subs == s.name:
+                item = key[:index2]
+                if item == 'max':
+                  s.maxValue = value
+                elif item == 'initial':
+                  s.initialValue = value
+                elif item == 'start':
+                  s.timeStart = value
+                elif item == 'end':
+                  s.timeEnd = value
+
         if graphWidget == True:
           graphIt.plot(self)
     # graphIt

@@ -1,15 +1,15 @@
 {
     "A": {
-        "interactions": [["C", "ur", "A"], ["S", "ur", "A", 2.0], ["A*", "ur", "A"]], "initialValue": 1, "tag": "enzyme"
+        "interactions": [["C", "ur", "A"], ["S", "ur", "A", 2.0], ["A*", "ur", "A"]], "initialValue": 1, "tag": "enzyme", "phosRate": 0.1, "dephosRate": -1.0
     },
     "A*": {
-        "interactions": [["C", "dr", "A*"], ["A", "ur", "A*"]], "initialValue": 1, "tag": "enzyme"
+        "interactions": [["C", "dr", "A*"], ["A", "ur", "A*"]], "initialValue": 1, "tag": "enzyme", "phosRate": 1.0, "dephosRate": -0.1
     },
     "B": {
-        "interactions": [["A", "dr", "B"], ["B*", "ur", "B"]], "tag": "enzyme", "initialValue": 1
+        "interactions": [["A", "dr", "B"], ["B*", "ur", "B"]], "tag": "enzyme", "initialValue": 1, "phosRate": 0.1, "dephosRate": -1.0
     },
     "B*": {
-        "interactions": [["A", "ur", "B*"], ["B", "ur", "B*"]], "tag": "enzyme", "initialValue": 1
+        "interactions": [["A", "ur", "B*"], ["B", "ur", "B*"]], "tag": "enzyme", "initialValue": 1, "phosRate": 1.0, "dephosRate": -0.1
     },
     "C": {
         "interactions": [["B*", "ur", "C"]], "tag": "enzyme", "initialValue": 1

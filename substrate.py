@@ -9,7 +9,6 @@ class Protein:
   initialValue: float = 0.0
   transRate: float = 1.0
   degradRate: float = -0.1
-  maxValue: float = None
   currentValue: float = initialValue
 
 
