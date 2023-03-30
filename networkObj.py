@@ -8,6 +8,7 @@ import modifyIt
 import pdb
 import graphviz
 import ipywidgets
+import pdb
 
 class Network:
   def __init__(self, name, networkDictionary):
@@ -132,6 +133,7 @@ class Network:
 
         if graphWidget == True:
           graphIt.plot(self)
+          print(parameters)
     # graphIt
         
         if saveWidget == True:
