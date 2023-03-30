@@ -133,7 +133,7 @@ class Network:
 
         if graphWidget == True:
           graphIt.plot(self)
-          print(parameters)
+          print(inputDictionary)
     # graphIt
         
         if saveWidget == True:
