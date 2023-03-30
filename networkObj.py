@@ -34,7 +34,7 @@ class Network:
     # fix this in terms of new labels
     ratesDictionary = {}
     for s in self.substrates:
-      if s.name == 'enzyme':
+      if s.substrateType == 'enzyme':
         k = s.phosRate
         r = s.dephosRate
         if s.name not in ratesDictionary.keys():
@@ -42,13 +42,13 @@ class Network:
           ratesDictionary[f'r_for_{s.name}'] = r
         else:
           pass
-      elif s.name == 'protein':
+      elif s.substrateType == 'protein':
         k = s.transRate
         r = s.degradRate
         if s.name not in ratesDictionary.keys():
           ratesDictionary[f'k_for_{s.name}'] = k
           ratesDictionary[f'r_for_{s.name}'] = r
-      elif s.name == 'stimulus':
+      elif s.substrateType == 'stimulus':
         i = s.initialValue
         m = s.maxValue
         start = s.timeStart
