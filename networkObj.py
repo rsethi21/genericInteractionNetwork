@@ -91,7 +91,7 @@ class Network:
           print("Parameters reset in network!")
 
         for key, value in parameters.items():
-          if key[0] == 'k':
+          if key[0:2] == 'k':
             subs = key[key.rindex('_')+1:]
             for s in self.substrates:
               if subs == s.name:
@@ -99,7 +99,7 @@ class Network:
                   s.phosRate = value
                 except:
                   s.transRate = value
-          elif key[0] == 'r':
+          elif key[0:2] == 'r_':
             subs = key[key.rindex('_')+1:]
             for s in self.substrates:
               if subs == s.name:
