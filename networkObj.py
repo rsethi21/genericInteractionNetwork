@@ -47,8 +47,6 @@ class Network:
         if s.name not in ratesDictionary.keys():
           ratesDictionary[f'k_for_{s.name}'] = k
           ratesDictionary[f'r_for_{s.name}'] = r
-        else:
-          pass
       elif s.name == 'stimulus':
         i = s.initialValue
         m = s.maxValue
@@ -77,7 +75,7 @@ class Network:
     inputDictionary = {}
 
     for key, value in ratesDictionary.items():
-      if key[0] == 'k' or key[0] == 'r' or key.startswith('rate') == True:
+      if key[0:2] == 'k_' or key[0:2] == 'r_' or key.startswith('rate') == True:
         if value < 0:
           inputDictionary[key] = ipywidgets.FloatSlider(value=value, min=-10.0, max=0.0, step=-0.1, description=key, readout=True)
         else:
