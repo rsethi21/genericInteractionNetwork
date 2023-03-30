@@ -49,7 +49,7 @@ class Network:
           ratesDictionary[f'r_for_{s.name}'] = r
         else:
           pass
-      elif s.name == 'stimulus'
+      elif s.name == 'stimulus':
         i = s.initialValue
         m = s.maxValue
         start = s.timeStart
