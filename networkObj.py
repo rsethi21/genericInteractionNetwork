@@ -184,7 +184,7 @@ class Network:
         try:
           r = nd[substrateName]['degradRate']
         except:
-          r = -0.1
+          r = -1.0
         substrate = Protein(substrateName, initialValue=nd[substrateName]['initialValue'], degradRate=r, transRate=k)
         substrates.append(substrate)
       else:
