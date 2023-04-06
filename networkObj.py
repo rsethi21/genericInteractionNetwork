@@ -9,12 +9,13 @@ import pdb
 import graphviz
 import ipywidgets
 import pdb
+import pandas as pd
 
 class Network:
-  def __init__(self, name, networkDictionary):
+  def __init__(self, name, networkDictionary, interactions):
     self.name = name
     self.substrates = self.processSubstrates(networkDictionary)
-    self.interactions = self.processInteractions(networkDictionary)
+    self.interactions = self.processInteractions(interactions)
     self.expressions = self.rateExpressions()
     self.values = {'y': {}, 'dydt': {}}
 
@@ -191,14 +192,13 @@ class Network:
         print('Not a possible substrate. Make sure tags are all lower-case.')
     return substrates
   
-  def processInteractions(self, nd):
+  def processInteractions(self, interactions):
     finalizedInteractions = []
     for substrate in self.substrates:
       name = substrate.name
       if substrate.substrateType == 'stimulus':
         pass
       else:
-        interactionList = nd[name]['interactions']
         for interaction in interactionList:
           substrate1 = [sub for sub in self.substrates if sub.name == interaction[0]][0]
           substrate2 = [sub for sub in self.substrates if sub.name == interaction[2]][0]
