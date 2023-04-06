@@ -10,10 +10,12 @@ from substrate import Protein
 from substrate import Influence
 import storeIt
 import os
+import csv
 
 parser = argparse.ArgumentParser(description='Create a cellular pathway mechanism.')
 
-parser.add_argument('-i', '--input', help='input a json file of the configurations of the network', required=True)
+parser.add_argument('-i', '--input', help='input a json file of the configurations of the substrates', required=True)
+parser.add_argument('-i2', '--input2', help='input a interactions csv', required=True)
 parser.add_argument('-o', '--output', help='input a directory for the output pdf with all output', required=False, default='./output')
 parser.add_argument('-s', '--save', help='path to file to save network object', required=False, default='network.pkl')
 
@@ -24,7 +26,10 @@ if __name__ == '__main__':
     # store object
     with open(args.input, 'r') as file:
         inputDict = json.load(file)
-    newNetwork = Network('Test Network', inputDict)
+    with open(args.input2, 'r') as file2:
+        interactions = csv.reader(file2)
+        interactions = list(interactions)
+    newNetwork = Network('Test Network', inputDict, interactions)
     storeIt.saveIt(newNetwork, args.save)
     
     # integrate

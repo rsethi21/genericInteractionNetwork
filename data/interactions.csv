@@ -1,0 +1,12 @@
+effector,effect,affected,rate,kinetics
+C,ur,A,None,None
+S,ur,A,2.0,None
+A*,ur,A,None,None
+C,dr,A*,None,None
+A,ur,A*,None,None
+A,dr,B,None,None
+B*,ur,B,None,None
+A,ur,B*,None,None
+B,ur,B*,None,None
+B*,ur,C,None,None
+C,ur,O,0.5,None
