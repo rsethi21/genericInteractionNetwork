@@ -10,3 +10,16 @@ Each user module has flag options to customize experience.
 1. Create and activate virtual environment (venv, conda)
 2. Then install requirements: pip3 -r install requirements.txt
 3. ...Explain modules and flags
+
+- Ideas:
+  - kinetics (cooperative, feedback loop)
+  - genetic algorithm (customizable to what parameters, what data, constraints, and fitting hyperparameters)
+  - active/inactive enzyme states (manage rates appropriately in modify, dynamic, and fitting)
+  - network diagram pointing to arrows and double arrows to signify reversibility
+  - dynamic graphing module
+  - complete statistics and modify modules
+  - logging and documentation (including code comments)
+- Goals:
+  - Once fitted examine:
+    - dynamics in steady state and stress
+    - sensitivity of dynamics to each key signalling molecule
