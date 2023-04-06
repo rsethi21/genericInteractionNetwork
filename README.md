@@ -19,9 +19,9 @@ Each user module has flag options to customize experience.
   - dynamic graphing module
   - complete statistics and modify modules
   - logging and documentation (including code comments)
-  - machine learning to predict outcomes (Ca2+ levels, phagocytosis, etc.) based on an input of key signalling state
-    - perhaps the type of stimuli could be inputs?
 - Goals:
   - Once fitted examine:
     - dynamics in steady state and stress
     - sensitivity of dynamics to each key signalling molecule
+    - machine learning to predict outcomes (Ca2+ levels, phagocytosis, etc.) based on an input of key signalling state
+      - perhaps the type of stimuli could be inputs?
