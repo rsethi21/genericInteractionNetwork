@@ -13,7 +13,7 @@ Each user module has flag options to customize experience.
 
 - Ideas:
   - kinetics (cooperative, feedback loop)
-  - genetic algorithm (customizable to what parameters, what data, constraints, and fitting hyperparameters)
+  - genetic algorithm (customizable to what parameters, what data, constraints, and fitting hyperparameters) --> for prototype may implement the following packages initially (geneticalgorithm or pyGAD)
   - active/inactive enzyme states (manage rates appropriately in modify, dynamic, and fitting)
   - network diagram pointing to arrows and double arrows to signify reversibility
   - dynamic graphing module
