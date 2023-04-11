@@ -9,6 +9,10 @@ from scipy.integrate import odeint
 import math
 import pandas
 
+
+class runGA:
+    # geneticalgorithm or pyGAD based implementation
+    
 @dataclass
 class Gen:
     genNum: int
