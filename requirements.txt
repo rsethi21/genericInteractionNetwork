@@ -6,3 +6,4 @@ scipy
 pickle
 ipywidgets
 graphviz
+geneticalgorithm

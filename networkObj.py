@@ -12,10 +12,10 @@ import pdb
 import pandas as pd
 
 class Network:
-  def __init__(self, name, networkDictionary, interactions):
+  def __init__(self, name, networkDictionary, interactionsList):
     self.name = name
     self.substrates = self.processSubstrates(networkDictionary)
-    self.interactions = self.processInteractions(interactions)
+    self.interactions = self.processInteractions(interactionsList)
     self.expressions = self.rateExpressions()
     self.values = {'y': {}, 'dydt': {}}
 
@@ -160,7 +160,7 @@ class Network:
     disabled=False, button_style='', icon='check'), **inputDictionary)
 
   def processSubstrates(self, nd):
-    substrates = []
+    substrates = {name: None for name in nd.keys()}
     for substrateName in nd.keys():
       if nd[substrateName]['tag'] == 'enzyme':
         
@@ -173,10 +173,10 @@ class Network:
         except:
           r = -0.1
         substrate = Enzyme(substrateName, initialValue=nd[substrateName]['initialValue'], phosRate=k, dephosRate=r)
-        substrates.append(substrate)
+        substrates[substrateName] = substrate
       elif nd[substrateName]['tag'] == 'stimulus':
         substrate = Influence(substrateName, initialValue=nd[substrateName]['initialValue'], maxValue=nd[substrateName]['maxValue'], timeStart=nd[substrateName]['timeStart'], timeEnd=nd[substrateName]['timeEnd'])
-        substrates.append(substrate)
+        substrates[substrateName] = substrate
       elif nd[substrateName]['tag'] == 'protein':
         try:
           k = nd[substrateName]['transRate']
@@ -187,32 +187,27 @@ class Network:
         except:
           r = -1.0
         substrate = Protein(substrateName, initialValue=nd[substrateName]['initialValue'], degradRate=r, transRate=k)
-        substrates.append(substrate)
+        substrates[substrateName] = substrate
       else:
         print('Not a possible substrate. Make sure tags are all lower-case.')
     return substrates
   
   def processInteractions(self, interactions):
     finalizedInteractions = []
-    for substrate in self.substrates:
-      name = substrate.name
-      if substrate.substrateType == 'stimulus':
-        pass
-      else:
-        for interaction in interactionList:
-          substrate1 = [sub for sub in self.substrates if sub.name == interaction[0]][0]
-          substrate2 = [sub for sub in self.substrates if sub.name == interaction[2]][0]
-          behavior = interaction[1]
-          try:
-            rate = interaction[3]
-          except:
-            rate = None
-          interactionObject = Interaction(substrate1, substrate2, behavior, rate)
-          finalizedInteractions.append(interactionObject)
+    for interaction in interactions[1:]:
+      substrate1 = self.substrates[interaction[0]]
+      substrate2 = self.substrates[interaction[2]]
+      behavior = interaction[1]
+      try:
+        rate = float(interaction[3])
+      except:
+        rate = None
+      interactionObject = Interaction(substrate1, substrate2, behavior, rate)
+      finalizedInteractions.append(interactionObject)
     return finalizedInteractions
 
   def getInitialValues(self):
-    return [s.initialValue for s in self.substrates]
+    return [s.initialValue for s in self.substrates.values()]
 
   def stimuliRate(self, t, timeStart, timeEnd, maxValue, value):
     if timeStart != None and timeEnd == None:
@@ -238,7 +233,7 @@ class Network:
 
   def rateExpressions(self):
     
-    interactionDictionary = {f'{substrate.name}':[] for substrate in self.substrates}
+    interactionDictionary = {n:[] for n in self.substrates.keys()}
     
     for interaction in self.interactions:
       interactionDictionary[interaction.substrate2.name].append(interaction)
@@ -246,12 +241,20 @@ class Network:
     dydt = []
     
     for substrateName in interactionDictionary.keys():
-      sub = [s for s in self.substrates if s.name == substrateName][0]
+      sub = self.substrates[substrateName]
       
       if sub.substrateType == 'enzyme':
       # change this to create the rate for the opposite inactivate form
-        positiveRate = "k"
-        negativeRate = f"r{sub.name}"
+        if type(sub.phosRate) != type(''):
+          positiveRate = "k"
+        else:
+          positiveRate = sub.phosRate[0]
+        
+        if type(sub.dephosRate) != type(''):
+          negativeRate = f"r{sub.name}"
+        else:
+          negativeRate = f"{sub.dephosRate[0]}{sub.name}"
+        
         additionalRate = ""
         # otherFormRate = {}
         for interaction in interactionDictionary[substrateName]:
@@ -302,11 +305,11 @@ class Network:
 
   def diffEQs(self, y, t):
     
-    for s, yValue in zip(self.substrates, y):
+    for s, yValue in zip(self.substrates.values(), y):
       s.currentValue = yValue
     
     self.values['y'][t] = y
-    interactionDictionary = {f'{substrate.name}':[] for substrate in self.substrates}
+    interactionDictionary = {n:[] for n in self.substrates.keys()}
     
     for interaction in self.interactions:
       interactionDictionary[interaction.substrate2.name].append(interaction)
@@ -314,12 +317,30 @@ class Network:
     dydt = []
     
     for substrateName in interactionDictionary.keys():
-      sub = [s for s in self.substrates if s.name == substrateName][0]
+      sub = self.substrates[substrateName]
       
       if sub.substrateType == 'enzyme':
       # change this to create the rate for the opposite inactivate form
-        positiveRate = sub.phosRate
-        negativeRate = sub.dephosRate*sub.currentValue
+        if type(sub.phosRate) != type(''):
+          positiveRate = sub.phosRate
+        else:
+          rate = sub.phosRate[0]
+          otherSub = self.substrates[sub.phosRate[1:]]
+          if rate == 'r':
+            positiveRate = -1*otherSub.dephosRate
+          else:
+            positiveRate = otherSub.phosRate
+
+        if type(sub.dephosRate) != type(''):
+          negativeRate = sub.dephosRate * sub.currentValue
+        else:
+          rate = sub.dephosRate[0]
+          otherSub = self.substrates[sub.dephosRate[1:]]
+          if rate == 'r':
+            negativeRate = otherSub.dephosRate * sub.currentValue
+          else:
+            negativeRate = -1*otherSub.phosRate * sub.currentValue
+
         additionalRate = 0
         # otherFormRate = {}
         for interaction in interactionDictionary[substrateName]:

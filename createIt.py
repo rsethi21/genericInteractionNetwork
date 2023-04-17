@@ -11,6 +11,7 @@ from substrate import Influence
 import storeIt
 import os
 import csv
+import pdb
 
 parser = argparse.ArgumentParser(description='Create a cellular pathway mechanism.')
 
@@ -31,7 +32,7 @@ if __name__ == '__main__':
         interactions = list(interactions)
     newNetwork = Network('Test Network', inputDict, interactions)
     storeIt.saveIt(newNetwork, args.save)
-    
+  
     # integrate
     y0 = newNetwork.getInitialValues()
     time = np.linspace(0, 200, 200)
@@ -42,10 +43,11 @@ if __name__ == '__main__':
     # plot
     plt.figure(figsize=(6,4),dpi=100)
     plt.plot(time,y[:,0],'g-',label='A')
-    plt.plot(time,y[:,1],'r-',label='B')
-    plt.plot(time,y[:,2],'b-',label='C')
-    plt.plot(time,y[:,3],'y-',label='S')
-    plt.plot(time,y[:,4],'m-',label='O')
+    plt.plot(time,y[:,1],'r-',label='A*')
+    plt.plot(time,y[:,2],'m-',label='B')
+    plt.plot(time,y[:,3],'k-',label='B*')
+    plt.plot(time,y[:,4],'b-',label='C')
+    plt.plot(time,y[:,5],'y-',label='S')
     plt.tick_params(direction='in',labelsize=12)
     plt.xlabel('Time [mins]',fontsize=12)
     plt.ylabel('Concentration [AU]',fontsize=12)
@@ -53,6 +55,6 @@ if __name__ == '__main__':
     plt.tight_layout()
     plt.savefig(os.path.join(args.output, 'output.pdf'), format='pdf')
 
-    # graph
+    # # graph
     
-    newNetwork.networkGraph('output', args.output)
+    newNetwork.networkGraph('diagram', args.output)

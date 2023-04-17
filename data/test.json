@@ -3,19 +3,19 @@
         "initialValue": 1, "tag": "enzyme", "phosRate": 0.1, "dephosRate": -1.0
     },
     "A*": {
-        "initialValue": 1, "tag": "enzyme", "phosRate": "Ar", "dephosRate": "Ak"
+        "initialValue": 0, "tag": "enzyme", "phosRate": "rA", "dephosRate": "kA"
     },
     "B": {
         "tag": "enzyme", "initialValue": 1, "phosRate": 0.1, "dephosRate": -1.0
     },
     "B*": {
-        "tag": "enzyme", "initialValue": 1, "phosRate": "Br", "dephosRate": "Bk"
+        "tag": "enzyme", "initialValue": 0, "phosRate": "rB", "dephosRate": "kB"
     },
     "C": {
-        "tag": "enzyme", "initialValue": 1
+        "tag": "enzyme", "initialValue": 0, "phosRate": 1.0, "dephosRate": -1.0
     },
     "S": {
-        "initialValue": 0, "maxValue": 10, "tag": "stimulus", "timeStart": 50, "timeEnd": 75
+        "initialValue": 0, "maxValue": 1, "tag": "stimulus", "timeStart": 50, "timeEnd": 55
     },
     "O": {
         "initialValue": 0, "tag": "protein"
