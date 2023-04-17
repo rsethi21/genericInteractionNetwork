@@ -1,9 +1,7 @@
-json
 argparse
 numpy
 matplotlib
 scipy
-pickle
 ipywidgets
 graphviz
 geneticalgorithm
