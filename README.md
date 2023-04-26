@@ -5,6 +5,8 @@ Must run from the outermost directory of the project.
 
 Any file that follows with It is for the user to use and apply.
 
+Should take over this notebook: https://colab.research.google.com/drive/1I-t0NpRuObLX94VFRltOoGqI-xL5sAZE
+
 Each user module has flag options to customize experience.
 
 1. Create and activate virtual environment (venv, conda)
