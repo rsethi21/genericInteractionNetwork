@@ -1,0 +1,12 @@
+digraph diagram {
+	C -> A [color=green]
+	S -> A [color=green]
+	"A*" -> A [color=green]
+	C -> "A*" [color=red]
+	A -> "A*" [color=green]
+	A -> B [color=red]
+	"B*" -> B [color=green]
+	A -> "B*" [color=green]
+	B -> "B*" [color=green]
+	"B*" -> C [color=green]
+}

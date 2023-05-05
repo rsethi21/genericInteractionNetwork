@@ -1,5 +1,6 @@
 argparse
 numpy
+pandas
 matplotlib
 scipy
 ipywidgets
