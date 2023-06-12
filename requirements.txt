@@ -6,3 +6,4 @@ scipy
 ipywidgets
 graphviz
 geneticalgorithm2
+joblib
